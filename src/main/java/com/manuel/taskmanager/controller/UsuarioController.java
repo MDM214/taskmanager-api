@@ -1,10 +1,13 @@
 package com.manuel.taskmanager.controller;
 
+import com.manuel.taskmanager.dto.UsuarioDTO;
 import com.manuel.taskmanager.entity.Usuario;
 import com.manuel.taskmanager.service.UsuarioService;
+import com.manuel.taskmanager.dto.UsuarioDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -16,6 +19,18 @@ public class UsuarioController {
             UsuarioService usuarioService) {
 
         this.usuarioService = usuarioService;
+    }
+
+    @GetMapping("/dto/{id}")
+    public UsuarioDTO obtenerUsuarioDTO(
+            @PathVariable Long id) {
+
+        Usuario usuario = usuarioService.obtenerPorId(id);
+
+        return new UsuarioDTO(
+                usuario.getId(),
+                usuario.getNombre(),
+                usuario.getEmail());
     }
 
     @GetMapping
@@ -32,7 +47,8 @@ public class UsuarioController {
 
     @PostMapping
     public Usuario createUsuario(
-            @RequestBody Usuario usuario) {
+
+            @Valid @RequestBody Usuario usuario) {
 
         return usuarioService.guardar(usuario);
     }
@@ -53,4 +69,5 @@ public class UsuarioController {
 
         usuarioService.eliminar(id);
     }
+
 }

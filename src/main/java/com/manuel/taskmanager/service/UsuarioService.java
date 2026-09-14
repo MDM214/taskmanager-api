@@ -1,6 +1,7 @@
 package com.manuel.taskmanager.service;
 
 import com.manuel.taskmanager.entity.Usuario;
+import com.manuel.taskmanager.exception.RecursoNoEncontradoException;
 import com.manuel.taskmanager.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,10 @@ public class UsuarioService {
     }
 
     public Usuario obtenerPorId(Long id) {
-        return usuarioRepository.findById(id).orElse(null);
+        return usuarioRepository
+                .findById(id)
+                .orElseThrow(() -> new RecursoNoEncontradoException(
+                        "Usuario no encontrado con ID: " + id));
     }
 
     public Usuario guardar(Usuario usuario) {
@@ -48,6 +52,7 @@ public class UsuarioService {
             return usuarioRepository.save(usuario);
         }
 
-        return null;
+        throw new RecursoNoEncontradoException(
+                "Usuario no encontrado con ID: " + id);
     }
 }

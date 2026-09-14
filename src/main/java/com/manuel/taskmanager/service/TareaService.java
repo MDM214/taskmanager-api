@@ -1,6 +1,7 @@
 package com.manuel.taskmanager.service;
 
 import com.manuel.taskmanager.entity.Tarea;
+import com.manuel.taskmanager.exception.RecursoNoEncontradoException;
 import com.manuel.taskmanager.repository.TareaRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,9 @@ public class TareaService {
     }
 
     public Tarea obtenerPorId(Long id) {
-        return tareaRepository.findById(id).orElse(null);
+        return tareaRepository.findById(id)
+                .orElseThrow(() -> new RecursoNoEncontradoException(
+                        "Tarea no encontrada con ID: " + id));
     }
 
     public Tarea guardar(Tarea tarea) {
@@ -43,7 +46,8 @@ public class TareaService {
             return tareaRepository.save(tarea);
         }
 
-        return null;
+        throw new RecursoNoEncontradoException(
+                "Tarea no encontrada con ID: " + id);
     }
 
 }
