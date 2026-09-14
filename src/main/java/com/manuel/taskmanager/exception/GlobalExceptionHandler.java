@@ -1,19 +1,21 @@
 package com.manuel.taskmanager.exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(RecursoNoEncontradoException.class)
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
 
-    public String manejarRecursoNoEncontrados(
+    public ErrorResponse manejarRecursoNoEncontrado(
             RecursoNoEncontradoException ex) {
 
-        return ex.getMessage();
+        return new ErrorResponse(
+                ex.getMessage());
     }
-
 }
