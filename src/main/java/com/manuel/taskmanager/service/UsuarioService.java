@@ -4,6 +4,7 @@ import com.manuel.taskmanager.entity.Usuario;
 import com.manuel.taskmanager.exception.RecursoNoEncontradoException;
 import com.manuel.taskmanager.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
@@ -12,8 +13,13 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+    public UsuarioService(UsuarioRepository usuarioRepository,
+            PasswordEncoder passwordEncoder) {
+
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Usuario> obtenerTodos() {
@@ -28,6 +34,11 @@ public class UsuarioService {
     }
 
     public Usuario guardar(Usuario usuario) {
+
+        usuario.setPassword(
+                passwordEncoder.encode(
+                        usuario.getPassword()));
+
         return usuarioRepository.save(usuario);
     }
 
