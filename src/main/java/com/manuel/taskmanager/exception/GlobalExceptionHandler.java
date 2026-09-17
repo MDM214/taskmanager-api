@@ -1,5 +1,6 @@
 package com.manuel.taskmanager.exception;
 
+import com.manuel.taskmanager.auth.CredencialesInvalidasException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,7 +16,16 @@ public class GlobalExceptionHandler {
     public ErrorResponse manejarRecursoNoEncontrado(
             RecursoNoEncontradoException ex) {
 
-        return new ErrorResponse(
-                ex.getMessage());
+        return new ErrorResponse(ex.getMessage());
+    }
+
+    @ExceptionHandler(CredencialesInvalidasException.class)
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+
+    public ErrorResponse manejarCredencialesInvalidas(
+            CredencialesInvalidasException ex) {
+
+        return new ErrorResponse(ex.getMessage());
     }
 }
