@@ -6,6 +6,7 @@ import com.manuel.taskmanager.service.UsuarioService;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import com.manuel.taskmanager.dto.CrearUsuarioDTO;
 
 import java.util.List;
 import jakarta.validation.Valid;
@@ -53,7 +54,13 @@ public class UsuarioController {
     @PostMapping
     public Usuario createUsuario(
 
-            @Valid @RequestBody Usuario usuario) {
+            @Valid @RequestBody CrearUsuarioDTO dto) {
+
+        Usuario usuario = new Usuario();
+
+        usuario.setNombre(dto.getNombre());
+        usuario.setEmail(dto.getEmail());
+        usuario.setPassword(dto.getPassword());
 
         return usuarioService.guardar(usuario);
     }

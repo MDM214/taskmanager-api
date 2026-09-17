@@ -39,6 +39,8 @@ public class UsuarioService {
                 passwordEncoder.encode(
                         usuario.getPassword()));
 
+        usuario.setRol("USER");
+
         return usuarioRepository.save(usuario);
     }
 

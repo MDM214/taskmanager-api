@@ -32,6 +32,9 @@ public class JwtAuthenticationFilter
                         FilterChain filterChain)
 
                         throws ServletException, IOException {
+                System.out.println(
+                                "URI = "
+                                                + request.getRequestURI());
 
                 String authHeader = request.getHeader("Authorization");
                 System.out.println("Authorization Header = " + authHeader);
@@ -58,12 +61,5 @@ public class JwtAuthenticationFilter
                 filterChain.doFilter(
                                 request,
                                 response);
-        }
-
-        @GetMapping("/whoami")
-        public String whoami(
-                        HttpServletRequest request) {
-
-                return request.getHeader("Authorization");
         }
 }

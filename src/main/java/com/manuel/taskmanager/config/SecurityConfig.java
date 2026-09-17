@@ -26,19 +26,18 @@ public class SecurityConfig {
                 http
                                 .csrf(csrf -> csrf.disable())
                                 .authorizeHttpRequests(auth -> auth
-                                                // .requestMatchers(
-                                                // "/swagger-ui/**",
-                                                // "/v3/api-docs/**",
-                                                // "/auth/**")
+                                                .requestMatchers(
+                                                                "/swagger-ui/**",
+                                                                "/v3/api-docs/**",
+                                                                "/auth/**")
+                                                .permitAll()
+
                                                 .anyRequest()
-                                                .permitAll());
+                                                .authenticated());
 
-                // .authenticated())
-                // .httpBasic(Customizer.withDefaults());
-
-                // http.addFilterBefore(
-                // jwtFilter,
-                // UsernamePasswordAuthenticationFilter.class);
+                http.addFilterBefore(
+                                jwtFilter,
+                                UsernamePasswordAuthenticationFilter.class);
 
                 return http.build();
         }
