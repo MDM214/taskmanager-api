@@ -9,7 +9,7 @@ public class TareaDTO {
     public TareaDTO() {
     }
 
-    public TareaDTO(long id,
+    public TareaDTO(Long id,
             String titulo,
             String estado) {
 

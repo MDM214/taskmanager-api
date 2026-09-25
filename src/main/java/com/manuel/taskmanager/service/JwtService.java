@@ -2,17 +2,28 @@ package com.manuel.taskmanager.service;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Service
 public class JwtService {
 
-        private final SecretKey secretKey = Keys.hmacShaKeyFor(
-                        "mi_clave_super_secreta_para_taskmanager_2026"
-                                        .getBytes());
+        private final SecretKey secretKey;
+        private final long expiration;
+
+        public JwtService(
+                        @Value("${jwt.secret}") String secret,
+                        @Value("${jwt.expiration}") long expiration) {
+
+                this.secretKey = Keys.hmacShaKeyFor(
+                                secret.getBytes(StandardCharsets.UTF_8));
+
+                this.expiration = expiration;
+        }
 
         public String generarToken(String username) {
 
@@ -20,9 +31,9 @@ public class JwtService {
                                 .subject(username)
                                 .issuedAt(new Date())
                                 .expiration(
-
-                                                new Date(System.currentTimeMillis()
-                                                                + 3600000))
+                                                new Date(
+                                                                System.currentTimeMillis()
+                                                                                + expiration))
                                 .signWith(secretKey)
                                 .compact();
         }
@@ -47,7 +58,6 @@ public class JwtService {
                                         .parseSignedClaims(token);
 
                         return true;
-
                 } catch (Exception e) {
 
                         return false;

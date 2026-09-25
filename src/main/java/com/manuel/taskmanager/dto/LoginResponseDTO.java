@@ -2,7 +2,7 @@ package com.manuel.taskmanager.dto;
 
 public class LoginResponseDTO {
 
-    private String token;
+    private final String token;
 
     public LoginResponseDTO(String token) {
         this.token = token;

@@ -3,8 +3,8 @@ package com.manuel.taskmanager.service;
 import com.manuel.taskmanager.entity.Usuario;
 import com.manuel.taskmanager.exception.RecursoNoEncontradoException;
 import com.manuel.taskmanager.repository.UsuarioRepository;
-import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -12,7 +12,6 @@ import java.util.List;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
-
     private final PasswordEncoder passwordEncoder;
 
     public UsuarioService(UsuarioRepository usuarioRepository,
@@ -45,6 +44,12 @@ public class UsuarioService {
     }
 
     public void eliminar(Long id) {
+
+        if (!usuarioRepository.existsById(id)) {
+            throw new RecursoNoEncontradoException(
+                    "Usuario no encontrado con ID: " + id);
+        }
+
         usuarioRepository.deleteById(id);
     }
 
@@ -52,20 +57,15 @@ public class UsuarioService {
             Usuario usuarioActualizado) {
 
         Usuario usuario = usuarioRepository.findById(id)
-                .orElse(null);
+                .orElseThrow(() -> new RecursoNoEncontradoException(
+                        "Usuario no encontrado con ID: " + id));
 
-        if (usuario != null) {
+        usuario.setNombre(
+                usuarioActualizado.getNombre());
 
-            usuario.setNombre(
-                    usuarioActualizado.getNombre());
+        usuario.setEmail(
+                usuarioActualizado.getEmail());
 
-            usuario.setEmail(
-                    usuarioActualizado.getEmail());
-
-            return usuarioRepository.save(usuario);
-        }
-
-        throw new RecursoNoEncontradoException(
-                "Usuario no encontrado con ID: " + id);
+        return usuarioRepository.save(usuario);
     }
 }

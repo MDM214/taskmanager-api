@@ -1,16 +1,10 @@
-package com.manuel.taskmanager.entity;
+package com.manuel.taskmanager.dto;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-@Entity
-@Table(name = "tareas")
-public class Tarea {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class CrearTareaDTO {
 
     @NotBlank
     @Size(min = 2, max = 100)
@@ -19,18 +13,11 @@ public class Tarea {
     @Size(max = 500)
     private String descripcion;
 
+    @NotBlank
     private String estado;
 
-    @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
-
-    public Tarea() {
-    }
-
-    public Long getId() {
-        return id;
-    }
+    @NotNull
+    private Long usuarioId;
 
     public String getTitulo() {
         return titulo;
@@ -56,11 +43,11 @@ public class Tarea {
         this.estado = estado;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Long getUsuarioId() {
+        return usuarioId;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsuarioId(Long usuarioId) {
+        this.usuarioId = usuarioId;
     }
 }

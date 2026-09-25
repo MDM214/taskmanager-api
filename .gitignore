@@ -1,4 +1,6 @@
 HELP.md
+
+### Maven ###
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -14,7 +16,7 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr
@@ -32,18 +34,18 @@ build/
 ### VS Code ###
 .vscode/
 
-# Logs
+### Logs ###
 *.log
 
-# Sistema operativo Windows
+### Variables de entorno ###
+.env
+
+### Archivos de backup ###
+*.bak
+
+### Windows ###
 Thumbs.db
 Desktop.ini
 
-# Sistema operativo Mac
+### macOS ###
 .DS_Store
-
-# Variables de entorno
-.env
-
-# Archivos de backup
-*.bak

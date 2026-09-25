@@ -1,11 +1,11 @@
 package com.manuel.taskmanager.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import java.util.List;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
@@ -28,11 +28,8 @@ public class Usuario {
     @JsonIgnore
     private List<Tarea> tareas;
 
-    // Constructor vacio
     public Usuario() {
     }
-
-    // Getters y Setters
 
     public Long getId() {
         return id;

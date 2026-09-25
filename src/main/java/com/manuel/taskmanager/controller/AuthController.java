@@ -2,10 +2,11 @@ package com.manuel.taskmanager.controller;
 
 import com.manuel.taskmanager.dto.LoginRequestDTO;
 import com.manuel.taskmanager.dto.LoginResponseDTO;
+import jakarta.validation.Valid;
 import com.manuel.taskmanager.entity.Usuario;
 import com.manuel.taskmanager.repository.UsuarioRepository;
 import com.manuel.taskmanager.service.JwtService;
-
+import com.manuel.taskmanager.exception.CredencialesInvalidasException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -30,33 +31,25 @@ public class AuthController {
 
         @PostMapping("/login")
         public LoginResponseDTO login(
-                        @RequestBody LoginRequestDTO request) {
+                        @Valid @RequestBody LoginRequestDTO request) {
 
                 Usuario usuario = usuarioRepository
                                 .findByEmail(request.getEmail())
-                                .orElseThrow(() -> new RuntimeException(
-                                                "Usuario no encontrado"));
+                                .orElseThrow(() -> new CredencialesInvalidasException(
+                                                "Usuario o contraseña no encontrado"));
 
                 if (!passwordEncoder.matches(
                                 request.getPassword(),
                                 usuario.getPassword())) {
 
-                        throw new RuntimeException(
-                                        "Contraseña incorrecta");
+                        throw new CredencialesInvalidasException(
+                                        "Usuario o Contraseña incorrecta");
                 }
 
                 String token = jwtService
                                 .generarToken(usuario.getEmail());
 
                 return new LoginResponseDTO(token);
-        }
-
-        @GetMapping("/test")
-        public String test() {
-
-                String token = jwtService.generarToken("Manuel");
-
-                return jwtService.extraerUsername(token);
         }
 
         @GetMapping("/whoami")
@@ -68,10 +61,4 @@ public class AuthController {
                                 .getName();
         }
 
-        @GetMapping("/token-test")
-        public String tokenTest(
-                        @RequestHeader("Autorization") String authHeader) {
-
-                return authHeader;
-        }
 }

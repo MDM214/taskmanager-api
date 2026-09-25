@@ -31,23 +31,28 @@ public class TareaService {
     }
 
     public void eliminar(Long id) {
+
+        if (!tareaRepository.existsById(id)) {
+            throw new RecursoNoEncontradoException(
+                    "Tarea no encontrada con ID: " + id);
+        }
+
         tareaRepository.deleteById(id);
     }
 
-    public Tarea actualizar(Long id, Tarea tareaActualizada) {
-        Tarea tarea = tareaRepository.findById(id).orElse(null);
+    public Tarea actualizar(
+            Long id,
+            Tarea tareaActualizada) {
 
-        if (tarea != null) {
+        Tarea tarea = tareaRepository.findById(id)
+                .orElseThrow(() -> new RecursoNoEncontradoException(
+                        "Tarea no encontrada con ID: " + id));
 
-            tarea.setTitulo(tareaActualizada.getTitulo());
-            tarea.setDescripcion(tareaActualizada.getDescripcion());
-            tarea.setEstado(tareaActualizada.getEstado());
+        tarea.setTitulo(tareaActualizada.getTitulo());
+        tarea.setDescripcion(tareaActualizada.getDescripcion());
+        tarea.setEstado(tareaActualizada.getEstado());
 
-            return tareaRepository.save(tarea);
-        }
-
-        throw new RecursoNoEncontradoException(
-                "Tarea no encontrada con ID: " + id);
+        return tareaRepository.save(tarea);
     }
 
 }

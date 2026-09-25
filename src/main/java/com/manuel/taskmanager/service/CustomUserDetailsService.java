@@ -2,36 +2,36 @@ package com.manuel.taskmanager.service;
 
 import com.manuel.taskmanager.entity.Usuario;
 import com.manuel.taskmanager.repository.UsuarioRepository;
-import org.springframework.security.core.userdetails.*;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CustomUserDetailsService
-        implements UserDetailsService {
+                implements UserDetailsService {
 
-    private final UsuarioRepository usuarioRepository;
+        private final UsuarioRepository usuarioRepository;
 
-    public CustomUserDetailsService(
-            UsuarioRepository usuarioRepository) {
+        public CustomUserDetailsService(
+                        UsuarioRepository usuarioRepository) {
 
-        this.usuarioRepository = usuarioRepository;
-    }
+                this.usuarioRepository = usuarioRepository;
+        }
 
-    @Override 
-    public UserDetails loadUserByUsername(
-            String email)
+        @Override
+        public UserDetails loadUserByUsername(String email)
+                        throws UsernameNotFoundException {
 
-            throws UsernameNotFoundException {
-
-        Usuario usuario =
-                usuarioRepository.findByEmail(email)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("Usuario no encontrado"));
+                Usuario usuario = usuarioRepository.findByEmail(email)
+                                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
                 return User.builder()
-                        .username(usuario.getEmail())
-                        .password(usuario.getPassword())
-                        .build();
-            }
-    
+                                .username(usuario.getEmail())
+                                .password(usuario.getPassword())
+                                .roles(usuario.getRol())
+                                .build();
+        }
+
 }
