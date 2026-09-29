@@ -37,8 +37,13 @@ build/
 ### Logs ###
 *.log
 
-### Variables de entorno ###
+### Variables de entorno y configuración privada ###
 .env
+.env.local
+.env.*.local
+
+src/main/resources/application-local.properties
+src/main/resources/application-prod.properties
 
 ### Archivos de backup ###
 *.bak
