@@ -187,7 +187,7 @@ No es necesario instalar Maven globalmente porque el proyecto incluye Maven Wrap
 ### 1. Clonar el repositorio
 
 ```bash
-git clone URL_DEL_REPOSITORIO
+git clone https://github.com/MDM214/taskmanager-api.git
 cd taskmanager
 ```
 
