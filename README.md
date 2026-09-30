@@ -1,3 +1,9 @@
+## Portafolio profesional
+ 
+TaskManager API forma parte de mi portafolio profesional, donde se presenta el proyecto junto con su documentación, capturas, pruebas automatizadas y decisiones técnicas.
+ 
+🌐 https://portafolio-manuel-setien.vercel.app/
+
 # TaskManager API
 
 API REST para la gestión de usuarios y tareas, desarrollada con **Spring Boot**, autenticación **JWT**, persistencia con **Spring Data JPA** y una batería completa de pruebas automatizadas.
@@ -503,6 +509,7 @@ El proyecto dispone además de:
 **Manuel Setién Joya**  
 Desarrollo de Aplicaciones Multiplataforma, DAM  
 Proyecto de portafolio profesional
+
 
 ## Licencia
 
